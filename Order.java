@@ -337,10 +337,7 @@ public class Order extends JFrame implements ActionListener
   
  
 
-  public ArrayList<String> GetArrayList()
-  {
-    return order;
-  }
+ 
 
    public static void main(String args[])
    {
