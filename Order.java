@@ -13,7 +13,7 @@ public class Order extends JFrame implements ActionListener
    
    Order()
    {
-      super("Welcome to Lyndon Restaurant");
+      super("Welcome to Jinky Diners");
       super.setLayout(null);
       super.setResizable(false);
       super.setSize(800,800);
@@ -21,9 +21,9 @@ public class Order extends JFrame implements ActionListener
      Container c  = getContentPane();
      c.setBackground(Color.BLACK);
        
-       label1.setFont(new Font("Serif",Font.BOLD,30));
-       label1.setForeground(Color.GRAY);
-       label1.setBounds(100,0,600,100);
+       storeName.setFont(new Font("Serif",Font.BOLD,30));
+       storeName.setForeground(Color.GRAY);
+       storeName.setBounds(100,0,600,100);
        
        submit.setBounds(589,649,120,30);
        submit.setBackground(Color.red);
@@ -77,10 +77,12 @@ public class Order extends JFrame implements ActionListener
        cancelMilkshake.addActionListener(this);
        cancelPineapplejuice.addActionListener(this);
        cancelPork.addActionListener(this);
+       reset.addActionListener(this);
+       help.addActionListener(this);
        
        
        
-       add(label1);
+       add(storeName);
        add(submit);
        add(help);
        add(reset);
@@ -117,89 +119,218 @@ public class Order extends JFrame implements ActionListener
         
          System.out.println("Ice tea"+order.add("Iced tea"));
        
-     }else if(e.getSource()==beef)
+     }
+     else if(e.getSource()==beef)
      {
          
          JOptionPane.showMessageDialog(this,"You ordered beef","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Beef"+order.add("Beef"));
-     }else if(e.getSource()==pork)
+     }
+     else if(e.getSource()==pork)
      {  
          JOptionPane.showMessageDialog(this,"You ordered Pork","Dialog",JOptionPane.PLAIN_MESSAGE);
         order.add("Pork");
-     }else if(e.getSource() == chicken)
+     }
+     else if(e.getSource() == chicken)
      {
          JOptionPane.showMessageDialog(this,"You ordered Chicken","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Chicken"+order.add("Chicken"));
-     }else if(e.getSource() == pineapplejuice)
+     }
+     else if(e.getSource() == pineapplejuice)
      {
          JOptionPane.showMessageDialog(this,"You ordered Pineapple Juice","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Pineapple Juice"+order.add("Pineapple Juice"));
-     }else if(e.getSource() == milkshake)
+     }
+     else if(e.getSource() == milkshake)
      {
          JOptionPane.showMessageDialog(this,"You ordered Milkshake","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Milkshake"+order.add("Milkshake"));
-     }else if(e.getSource() == extrarice)
+     }
+     else if(e.getSource() == extrarice)
      {
          JOptionPane.showMessageDialog(this,"You ordered Extra rice","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Extra rice"+order.add("Extra rice"));
-     }else if(e.getSource() == egg)
+     }
+     else if(e.getSource() == egg)
      {
          JOptionPane.showMessageDialog(this,"You ordered eggs","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Eggs"+order.add("Egg"));
-     }else if(e.getSource() == brownies)
+     }
+     else if(e.getSource() == brownies)
      {
          JOptionPane.showMessageDialog(this,"You ordered brownies","Dialog",JOptionPane.PLAIN_MESSAGE);
          System.out.println("Brownies"+order.add("Brownies"));
         
          
          
-     }if(e.getSource()==submit)
+     }
+     
+     
+     
+     if(e.getSource()==submit)
      {
-         if(order.isEmpty()){
+         if(order.isEmpty())
+         {
              JOptionPane.showMessageDialog(this,"Please place an order first","Dialog",JOptionPane.WARNING_MESSAGE);
-         }else{
-             JOptionPane.showMessageDialog(this,GetArrayList());
+         }
+         else
+         {
+             String details = "";
+             for (int i=0; i<order.size();i++)
+             {
+                 details +=order.get(i) + "\n";
+             }
+             int result = JOptionPane.showConfirmDialog(this,"These are the orders you requested: \n"+details,"Dialog",JOptionPane.YES_NO_OPTION);
+             if(result == JOptionPane.YES_OPTION)
+             {
+                 JOptionPane.showMessageDialog(this,"Thank you for ordering");
+                 order.clear();
+             }
          }
          
+     }
+     
+     if(e.getSource() == reset)
+     {
+        
+         if(order.isEmpty())
+         {
+             JOptionPane.showMessageDialog(this,"The order is empty",null,JOptionPane.WARNING_MESSAGE);
+         }
+         else
+         {
+            int result = JOptionPane.showConfirmDialog(this,"Want to reset the order?",null,JOptionPane.YES_NO_OPTION);
+            if(result == JOptionPane.YES_OPTION)
+             {
+                order.clear();
+             }
+        
+         }
+        
      }
      
      
      if(e.getSource()==cancelBeef)
      {
-         System.out.println(order.remove("Beef"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelBrownies)
+         if(order.contains("Beef"))
+         {
+            System.out.println(order.remove("Beef"));
+            JOptionPane.showMessageDialog(this,"Order has been cancelled");  
+         }else
+         {
+            
+            JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+     }
+     else if(e.getSource()==cancelBrownies)
      {
-         System.out.println(order.remove("Brownies"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelChicken)
+         if(order.contains("Brownies"))
+         {
+             System.out.println(order.remove("Brownies"));
+             JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }else
+         {
+             
+             JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+     }
+     else if(e.getSource()==cancelChicken)
      {
-         System.out.println(order.remove("Chicken"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelEgg)
+         if(order.contains("Chicken"))
+         {
+             System.out.println(order.remove("Chicken"));
+             JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }
+         else
+         {
+             
+              JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+     }
+     else if(e.getSource()==cancelEgg)
      {
-         System.out.println(order.remove("Egg"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelExtrarice)
+         if(order.contains("Egg"))
+         {
+             System.out.println(order.remove("Egg"));
+             JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }
+         else
+         {
+            
+             JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+         
+     }
+     else if(e.getSource()==cancelExtrarice)
      {
-         System.out.println(order.remove("Extra rice"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelIcedtea)
+         if(order.contains("Extra rice"))
+         {
+              System.out.println(order.remove("Extra rice"));
+              JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }
+         else
+         {
+              
+              
+              JOptionPane.showMessageDialog(this,"There is nothing to cancle","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+        
+     }
+     else if(e.getSource()==cancelIcedtea)
      {
-         System.out.println(order.remove("Iced tea"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelMilkshake)
+         if(order.contains("Iced tea"))
+         {
+              
+              System.out.println(order.remove("Iced tea"));
+              JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }    
+         else
+         {
+              JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+        
+     }
+     else if(e.getSource()==cancelMilkshake)
      {
-         System.out.println(order.remove("Milkshake"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelPineapplejuice)
+         if(order.contains("Milkshake"))
+         {
+           
+            System.out.println(order.remove("Milkshake"));
+            JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }
+         else
+         {
+            JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+         
+     }
+     else if(e.getSource()==cancelPineapplejuice)
      {
-         System.out.println(order.remove("Pineapple Juice"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
-     }else if(e.getSource()==cancelPork)
+         if(order.contains("Pineapple Juice"))
+         {
+             
+             System.out.println(order.remove("Pineapple Juice"));
+             JOptionPane.showMessageDialog(this,"Order has been cancelled");
+         }
+         else
+         {
+             JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+         
+     }
+     else if(e.getSource()==cancelPork)
      {
-         System.out.println(order.remove("Pork"));
-         JOptionPane.showMessageDialog(this,"Order has been canceled");
+         if(order.contains("Pork"))
+         {
+             
+             System.out.println(order.remove("Pork"));
+            JOptionPane.showMessageDialog(this,"Order has been cancelled"); 
+         }
+         else
+         {
+            JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
+         }
+         
      }
      
    }
@@ -221,8 +352,8 @@ public class Order extends JFrame implements ActionListener
       ArrayList<String> order = new ArrayList<>();
       JButton reset = new JButton("Reset");
       JButton help = new JButton("Help");
-      JButton submit = new JButton("Submit");
-      JLabel label1  = new JLabel("Welcome to Lyndon Restaurant");
+      JButton submit = new JButton("Order");
+      JLabel storeName  = new JLabel("Welcome to Jinky Diners");
       JButton beef = new JButton("Beef");
       JButton pork = new JButton("Pork");
       JButton chicken = new JButton("Chicken");
