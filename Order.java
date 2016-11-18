@@ -3,23 +3,38 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import java.util.Scanner;
+import java.io.IOException;
+import java.io.OutputStream;
+import static java.lang.System.out;
+
 public class Order extends JFrame implements ActionListener
 {
+   
+
+    private static JTextArea text1;
+  
    
    Order()
    {
       super("Welcome to Jinky Diners");
       super.setLayout(null);
       super.setResizable(false);
-      super.setSize(800,800);
+      super.setSize(1200,800);
       super.setDefaultCloseOperation(EXIT_ON_CLOSE);
      Container c  = getContentPane();
      c.setBackground(Color.BLACK);
+       
+       area.setSize(500,800);
+       area.setEnabled(false);
        
        storeName.setFont(new Font("Serif",Font.BOLD,30));
        storeName.setForeground(Color.GRAY);
@@ -57,6 +72,7 @@ public class Order extends JFrame implements ActionListener
        cancelExtrarice.setBounds(250,480,50,50);
        cancelEgg.setBounds(500,480,50,50);
        cancelBrownies.setBounds(750,480,50,50);
+       area.setBounds(800,0,500,1000);
        
        submit.addActionListener(this);
        icedtea.addActionListener(this);
@@ -81,7 +97,7 @@ public class Order extends JFrame implements ActionListener
        help.addActionListener(this);
        
        
-       
+       add(area);
        add(storeName);
        add(submit);
        add(help);
@@ -104,66 +120,87 @@ public class Order extends JFrame implements ActionListener
        add(cancelExtrarice);
        add(cancelEgg);
        add(cancelBrownies);
+      System.setOut(out);
+     System.setErr(out);
+       System.out.println("Welcome table 4");
+       
        
    }
    
      @Override
    public void actionPerformed(ActionEvent e)
    {
+      // System.setOut(out);
+      //System.setErr(out);
+      
        
-     
      if(e.getSource()==icedtea)
-     {
-         
+     {   
+         prices.add(100);
+         order.add("Iced tea");
          JOptionPane.showMessageDialog(this, "You ordered Ice tea ", "Dialog",JOptionPane.PLAIN_MESSAGE);
-        
-         System.out.println("Ice tea"+order.add("Iced tea"));
+         System.out.println("Iced tea..................................P100");
        
      }
      else if(e.getSource()==beef)
      {
-         
+         prices.add(200);
+         order.add("Beef");
          JOptionPane.showMessageDialog(this,"You ordered beef","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Beef"+order.add("Beef"));
+         System.out.println("Beef..................................P200");
+         
      }
      else if(e.getSource()==pork)
-     {  
+     {   prices.add(300);
+         order.add("Pork");
          JOptionPane.showMessageDialog(this,"You ordered Pork","Dialog",JOptionPane.PLAIN_MESSAGE);
-        order.add("Pork");
+         System.out.println("Pork..................................P300");
      }
      else if(e.getSource() == chicken)
-     {
+     {   
+         prices.add(150);
+         order.add("Chicken");
          JOptionPane.showMessageDialog(this,"You ordered Chicken","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Chicken"+order.add("Chicken"));
+         System.out.println("Chicken..................................P150");
      }
      else if(e.getSource() == pineapplejuice)
      {
+         prices.add(80);
+         order.add("Pineapple Juice");
          JOptionPane.showMessageDialog(this,"You ordered Pineapple Juice","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Pineapple Juice"+order.add("Pineapple Juice"));
+         System.out.println("Pineapple Juice..................................P80");
      }
      else if(e.getSource() == milkshake)
      {
+         prices.add(100);
+         order.add("Milkshake");
          JOptionPane.showMessageDialog(this,"You ordered Milkshake","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Milkshake"+order.add("Milkshake"));
+         System.out.println("Milkshake..................................P100");
      }
      else if(e.getSource() == extrarice)
      {
+         prices.add(10);
+         order.add("Extra rice");
          JOptionPane.showMessageDialog(this,"You ordered Extra rice","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Extra rice"+order.add("Extra rice"));
+         System.out.println("Extra rice..................................P10");
      }
      else if(e.getSource() == egg)
      {
+         prices.add(6);
+         order.add("Egg");
          JOptionPane.showMessageDialog(this,"You ordered eggs","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Eggs"+order.add("Egg"));
+         System.out.println("Eggs..................................P6");
      }
      else if(e.getSource() == brownies)
      {
+         prices.add(50);
+         order.add("Brownies");
          JOptionPane.showMessageDialog(this,"You ordered brownies","Dialog",JOptionPane.PLAIN_MESSAGE);
-         System.out.println("Brownies"+order.add("Brownies"));
+       
+         System.out.println("Brownies..................................P50");
         
-         
-         
      }
+     
      
      
      
@@ -175,16 +212,30 @@ public class Order extends JFrame implements ActionListener
          }
          else
          {
+             int total=0;
              String details = "";
              for (int i=0; i<order.size();i++)
              {
                  details +=order.get(i) + "\n";
              }
-             int result = JOptionPane.showConfirmDialog(this,"These are the orders you requested: \n"+details,"Dialog",JOptionPane.YES_NO_OPTION);
+            for (Integer i : prices)
+            {
+                total +=i;
+            }
+             int result = JOptionPane.showConfirmDialog(this,"These are the orders you requested: \n"+details+"\n"+total,"Dialog",JOptionPane.YES_NO_OPTION);
+             System.out.println("_______________________________________________");
+             System.out.println("Total................................."+total);
              if(result == JOptionPane.YES_OPTION)
              {
-                 JOptionPane.showMessageDialog(this,"Thank you for ordering");
+                 JOptionPane.showMessageDialog(this,"Thank you for ordering please wait for 20 minutes to be serve");
+                 area.setText("Welcome table 4 \n");
                  order.clear();
+                 prices.clear();
+             }else if(result == JOptionPane.NO_OPTION)
+             {
+                area.setText("Welcome table 4 \n");
+                order.clear();
+                prices.clear();
              }
          }
          
@@ -199,34 +250,50 @@ public class Order extends JFrame implements ActionListener
          }
          else
          {
+             
             int result = JOptionPane.showConfirmDialog(this,"Want to reset the order?",null,JOptionPane.YES_NO_OPTION);
             if(result == JOptionPane.YES_OPTION)
              {
+                 area.setText("Welcome Table 4 \n");
                 order.clear();
+                prices.clear();
+                
+               
              }
         
          }
         
      }
      
+     if(e.getSource() == help)
+     {
+         JOptionPane.showMessageDialog(this,"Please wait, a waiter will come");
+     }
+     
      
      if(e.getSource()==cancelBeef)
      {
-         if(order.contains("Beef"))
+         if(order.contains("Beef")&& prices.contains(200))
          {
-            System.out.println(order.remove("Beef"));
+            order.remove("Beef");
+            prices.remove(new Integer(200));
+             System.out.println("Beef order cancelled");
             JOptionPane.showMessageDialog(this,"Order has been cancelled");  
          }else
          {
             
             JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
          }
+         
+        
      }
      else if(e.getSource()==cancelBrownies)
      {
-         if(order.contains("Brownies"))
+         if(order.contains("Brownies")&&prices.contains(50))
          {
-             System.out.println(order.remove("Brownies"));
+             order.remove("Brownies");
+             prices.remove(new Integer(50));
+              System.out.println("Brownies order cancelled");
              JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }else
          {
@@ -236,9 +303,11 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelChicken)
      {
-         if(order.contains("Chicken"))
+         if(order.contains("Chicken")&&prices.contains(150))
          {
-             System.out.println(order.remove("Chicken"));
+            order.remove("Chicken");
+            prices.remove(new Integer(150));
+             System.out.println("Chicken order cancelled");
              JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }
          else
@@ -247,11 +316,13 @@ public class Order extends JFrame implements ActionListener
               JOptionPane.showMessageDialog(this,"There is nothing to cancel","Dialog",JOptionPane.WARNING_MESSAGE);
          }
      }
-     else if(e.getSource()==cancelEgg)
+     else if(e.getSource()==cancelEgg )
      {
-         if(order.contains("Egg"))
+         if(order.contains("Egg") && prices.contains(6))
          {
-             System.out.println(order.remove("Egg"));
+             order.remove("Egg");
+             prices.remove(new Integer(6));
+              System.out.println("Egg order cancelled");
              JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }
          else
@@ -263,9 +334,11 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelExtrarice)
      {
-         if(order.contains("Extra rice"))
+         if(order.contains("Extra rice") && prices.contains(10))
          {
-              System.out.println(order.remove("Extra rice"));
+              order.remove("Extra rice");
+              prices.remove(new Integer(10));
+               System.out.println("Extra rice order cancelled");
               JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }
          else
@@ -278,10 +351,12 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelIcedtea)
      {
-         if(order.contains("Iced tea"))
+         if(order.contains("Iced tea") && prices.contains(100))
          {
               
-              System.out.println(order.remove("Iced tea"));
+              order.remove("Iced tea");
+              prices.remove(new Integer(100));
+               System.out.println("Iced tea order cancelled");
               JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }    
          else
@@ -292,10 +367,12 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelMilkshake)
      {
-         if(order.contains("Milkshake"))
+         if(order.contains("Milkshake") && prices.contains(100))
          {
            
-            System.out.println(order.remove("Milkshake"));
+            order.remove("Milkshake");
+            prices.remove(new Integer(100));
+             System.out.println("Milkshake order cancelled");
             JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }
          else
@@ -306,10 +383,12 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelPineapplejuice)
      {
-         if(order.contains("Pineapple Juice"))
+         if(order.contains("Pineapple Juice") && prices.contains(80))
          {
              
-             System.out.println(order.remove("Pineapple Juice"));
+             order.remove("Pineapple Juice");
+             prices.remove(new Integer(80));
+              System.out.println("Pineapple juice order cancelled");
              JOptionPane.showMessageDialog(this,"Order has been cancelled");
          }
          else
@@ -320,10 +399,12 @@ public class Order extends JFrame implements ActionListener
      }
      else if(e.getSource()==cancelPork)
      {
-         if(order.contains("Pork"))
+         if(order.contains("Pork") && prices.contains(300))
          {
              
-             System.out.println(order.remove("Pork"));
+             order.remove("Pork");
+             prices.remove(new Integer(300));
+              System.out.println("Pork order cancelled");
             JOptionPane.showMessageDialog(this,"Order has been cancelled"); 
          }
          else
@@ -334,18 +415,24 @@ public class Order extends JFrame implements ActionListener
      }
      
    }
-  
- 
+   
 
- 
+
 
    public static void main(String args[])
    {
+       
+      
        Order n =  new Order();
+        text1 = new JTextArea();
+        
+        text1.setVisible(true);
+        
        
        n.setVisible(true);
    }
    
+      ArrayList<Integer> prices = new ArrayList<>();  
       ArrayList<String> order = new ArrayList<>();
       JButton reset = new JButton("Reset");
       JButton help = new JButton("Help");
@@ -369,4 +456,7 @@ public class Order extends JFrame implements ActionListener
       JButton cancelExtrarice = new JButton("X");
       JButton cancelEgg = new JButton("X");
       JButton cancelBrownies = new JButton("X");
+      JTextArea area = new JTextArea();
+      PrintStream out = new PrintStream( new TextAreaOutputStream(area));
+      
 }
